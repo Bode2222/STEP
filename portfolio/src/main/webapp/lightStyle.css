@@ -1,14 +1,14 @@
 body{
-    background-color: #2e2e2e;
+    background-color: #ffffff;
 }
 
 #backColor{
-    background-color: #5e5e5e;
+    background-color: #dddddd;
 }
 
 #button {
     border-radius: 10px;
-    background-color: #383838;
+    background-color: #aaaaaa;
     border: none;
     color: white;
     padding: 50px 100px;
@@ -21,7 +21,7 @@ body{
 
 #smallButton{
     border-radius: 10px;
-    background-color: #383838;
+    background-color: #aaaaaa;
     border: none;
     color: white;
     padding: 25px 50px;
@@ -38,7 +38,7 @@ body{
     background-color: #6e6e6e;
 }
 
-#smallButton:hover{
+#button:hover{
     background-color: #6e6e6e;
 }
 
@@ -53,8 +53,8 @@ body{
   padding: 15px;
   text-align: center;
   font-size: 30px;
-  color: #a6a6a6;
-  background-color: #545454;
+  color: #333333;
+  background-color: #cccccc;
 }
 
 .gridContainer{
@@ -67,7 +67,7 @@ body{
 .footer {
   padding: 10px;
   text-align: center;
-  background-color: #545454;
+  background-color: #cccccc;
 }
 
 p{
