@@ -5,8 +5,13 @@
     <title>My Portfolio</title>
     <link id="PageStyle" rel="stylesheet" href="style.css">
     <script src="toggleDark.js"></script>
+    <script src="mainScript.js"></script>
   </head>
+
   <body>
+    <button onclick="getDataFromServlet()">getDataButton</button>
+    <div id="data-container"></div>
+
     <label class="switch">
         <input type="checkbox" id="darkModeToggle" onclick="ToggleMode()">
         <span class="slider round"></span>
