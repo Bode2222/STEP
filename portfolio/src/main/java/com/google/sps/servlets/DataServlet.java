@@ -30,8 +30,8 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-      //Convert comments to json
-      String json = convertToJson();
+    //Convert comments to json
+    String json = convertToJson();
     response.setContentType("application/json;");
     response.getWriter().println(json);
   }
