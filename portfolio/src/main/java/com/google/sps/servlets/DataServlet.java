@@ -24,9 +24,28 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+	String[] comments = {"XXX_6942069_XXX was here", "first", "That pro is bad at this game, my bronze games are much more intense!"};
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html;");
-    response.getWriter().println("<h1>Hello world!</h1>");
+      //Convert comments to json
+      String json = convertToJson();
+    response.setContentType("application/json;");
+    response.getWriter().println(json);
+  }
+
+  private String convertToJson() {
+    String json = "{";
+    json += "\"comments\":[";
+    for(int i = 0; i < 3; i++){
+        json += "\"";
+        json += comments[i];
+        json += "\"";
+        if(i != 3-1) json += ", ";
+    }
+    json += "]";
+    json += "}";
+    
+    return json;
   }
 }

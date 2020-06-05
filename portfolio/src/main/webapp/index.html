@@ -3,10 +3,21 @@
   <head>
     <meta charset="UTF-8">
     <title>My Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+    <link id="PageStyle" rel="stylesheet" href="style.css">
+    <script src="toggleDark.js"></script>
+    <script src="mainScript.js"></script>
   </head>
+
   <body>
-    <div style="background-color: #5e5e5e;">
+    <button onclick="getDataFromServlet()">getDataButton</button>
+    <div id="data-container"></div>
+
+    <label class="switch">
+        <input type="checkbox" id="darkModeToggle" onclick="ToggleMode()">
+        <span class="slider round"></span>
+    </label>
+
+    <div id=backColor>
         <div class="header">
         <h1><center>Olabode's Portfolio</center> </h1>
         </div>
