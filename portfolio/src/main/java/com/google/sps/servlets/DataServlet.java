@@ -34,7 +34,7 @@ import com.google.appengine.api.datastore.FetchOptions;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-	ArrayList<String> comments = new ArrayList<String>(1);
+	ArrayList<String> comments = new ArrayList<String>();
     int maxNumOfComments = 100;
 
   @Override
@@ -78,7 +78,6 @@ public class DataServlet extends HttpServlet {
   }
 
   private String convertToJson(ArrayList<String> comments) {
-    comments.set(0, "First comment");
     String json = "{";
     json += "\"comments\":[";
     if(comments.size() > 0){
@@ -88,9 +87,9 @@ public class DataServlet extends HttpServlet {
             json += "\"";
             if(i != comments.size()-1) json += ", ";
         }
-        json += "]";
-        json += "}";
     }
+    json += "]";
+    json += "}";
     
     return json;
   }

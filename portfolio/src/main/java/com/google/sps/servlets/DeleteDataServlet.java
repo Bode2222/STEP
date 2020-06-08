@@ -37,21 +37,19 @@ import com.google.appengine.api.datastore.KeyFactory;
 public class DeleteDataServlet extends HttpServlet{
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String resultText = "Deleted data: ";
+        response.setContentType("text/html");
+
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
-        String text = "This comment is new";
-
-        Entity commentEntity = new Entity("Comment");
-        commentEntity.setProperty("text", text);
-
-        datastore.put(commentEntity);
 
         Query query = new Query("Comment");
         PreparedQuery results = datastore.prepare(query);
-        
-        List<Key> keyList = new ArrayList<Key>();
+
         for(Entity entity : results.asIterable()){
+            resultText += entity.getProperty("text");
             datastore.delete(entity.getKey());
         }
+
+        response.getWriter().println(resultText);
     }
 }
