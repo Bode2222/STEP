@@ -22,17 +22,20 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import com.google.appengine.api.datastore.FetchOptions;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-	ArrayList<String> comments = new ArrayList<String>(1);
+	ArrayList<String> comments = new ArrayList<String>();
+    int maxNumOfComments = 100;
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -42,8 +45,12 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
+    int numOfComments = Integer.parseInt(request.getParameter("numComments"));
+    if(numOfComments > maxNumOfComments) numOfComments = maxNumOfComments;
+    List<Entity> resultList = results.asList(FetchOptions.Builder.withLimit(numOfComments));
+
     comments = new ArrayList<>();
-    for (Entity entity : results.asIterable()) {
+    for (Entity entity : resultList) {
         String currentComment = (String) entity.getProperty("text");
         comments.add(currentComment);
     }
@@ -67,13 +74,10 @@ public class DataServlet extends HttpServlet {
     datastore.put(commentEntity);
 
     // Respond with the result.
-    response.setContentType("text/html;");
-    response.getWriter().println("Your last comment was: ");
-    response.getWriter().println(comments.get(comments.size()-1));
+    response.sendRedirect("index.html");
   }
 
   private String convertToJson(ArrayList<String> comments) {
-    comments.set(0, "First comment");
     String json = "{";
     json += "\"comments\":[";
     if(comments.size() > 0){
@@ -83,9 +87,9 @@ public class DataServlet extends HttpServlet {
             json += "\"";
             if(i != comments.size()-1) json += ", ";
         }
-        json += "]";
-        json += "}";
     }
+    json += "]";
+    json += "}";
     
     return json;
   }
