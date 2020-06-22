@@ -14,6 +14,12 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import java.io.IOException;
 import java.util.Arrays;
 import javax.servlet.annotation.WebServlet;
@@ -30,8 +36,20 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    //Get comments from datastore
+    Query query = new Query("Comment").addSort("text", SortDirection.DESCENDING);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
+
+    comments = new ArrayList<>();
+    for (Entity entity : results.asIterable()) {
+        String currentComment = (String) entity.getProperty("text");
+        comments.add(currentComment);
+    }
+
     //Convert comments to json
-    String json = convertToJson();
+    String json = convertToJson(comments);
     response.setContentType("application/json;");
     response.getWriter().println(json);
   }
@@ -40,13 +58,21 @@ public class DataServlet extends HttpServlet {
     String text = request.getParameter("text-input");
     comments.add(text);
 
+    //Add comment to datastore
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+    Entity commentEntity = new Entity("Comment");
+    commentEntity.setProperty("text", text);
+
+    datastore.put(commentEntity);
+
     // Respond with the result.
     response.setContentType("text/html;");
     response.getWriter().println("Your last comment was: ");
     response.getWriter().println(comments.get(comments.size()-1));
   }
 
-  private String convertToJson() {
+  private String convertToJson(ArrayList<String> comments) {
     comments.set(0, "First comment");
     String json = "{";
     json += "\"comments\":[";
