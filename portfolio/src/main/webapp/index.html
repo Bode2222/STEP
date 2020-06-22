@@ -9,9 +9,6 @@
   </head>
 
   <body>
-    <button onclick="getDataFromServlet()">getDataButton</button>
-    <div id="data-container"></div>
-
     <label class="switch">
         <input type="checkbox" id="darkModeToggle" onclick="ToggleMode()">
         <span class="slider round"></span>
@@ -29,6 +26,18 @@
                 <a href="playPage.html" id=button> Play </a>
             </div>
         </div>
+
+        <button onclick="getDataFromServlet()">getDataButton</button>
+        <div id="data-container"></div>
+
+        <form action="/data" method="POST">
+            <p>Leave a comment:</p>
+            <textarea name="text-input">example comment</textarea>
+            <br/><br/>
+
+            <input type="submit" />
+        </form>
+
         <div class=footer>
             <a href="https://www.github.com/Bode2222/"> <img src="/Pics/gitlogo.png" alt="Github" width="50" height="50"> </a>
         </div>
