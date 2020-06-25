@@ -27,6 +27,7 @@ public final class Event {
   private final String title;
   private final TimeRange when;
   private final Set<String> attendees = new HashSet<>();
+  private final Set<Boolean> optional = new HashSet<>();
 
   /**
    * Creates a new event.
@@ -34,6 +35,7 @@ public final class Event {
    * @param title The human-readable name for the event. Must be non-null.
    * @param when The time when the event takes place. Must be non-null.
    * @param attendees The collection of people attending the event. Must be non-null.
+   * @param optional Whether the collection of people who own this event are optional attendees in the new meeting request
    */
   public Event(String title, TimeRange when, Collection<String> attendees) {
     if (title == null) {
@@ -51,6 +53,38 @@ public final class Event {
     this.title = title;
     this.when = when;
     this.attendees.addAll(attendees);
+    //Iterate through the attendees set and add false as their optional criteria
+    for(int i = 0; i < attendees.size(); i++){
+        this.optional.add(false);
+    }
+  }
+
+
+  public Event(String title, TimeRange when, Collection<String> attendees, Collection<Boolean> isAttendeeOptional) {
+    if (title == null) {
+      throw new IllegalArgumentException("title cannot be null");
+    }
+
+    if (when == null) {
+      throw new IllegalArgumentException("when cannot be null");
+    }
+
+    if (attendees == null) {
+      throw new IllegalArgumentException("attendees cannot be null. Use empty array instead.");
+    }
+
+    if (isAttendeeOptional == null){
+        throw new IllegalArgumentException("isAttendeeOptional cannot be null. Use empty array instead");
+    }
+
+    if (attendees.size() != isAttendeeOptional.size()){
+        throw new IllegalArgumentException("Attendee list and Attendee optional status list size mismatch. Please ensure that isAttendeeOptional and attendees are the same size.");
+    }
+
+    this.title = title;
+    this.when = when;
+    this.attendees.addAll(attendees);
+    this.optional.addAll(isAttendeeOptional);
   }
 
   /**
@@ -74,6 +108,11 @@ public final class Event {
     // Return the attendees as an unmodifiable set so that the caller can't change our
     // internal data.
     return Collections.unmodifiableSet(attendees);
+  }
+
+  /* Returns a read-only set of booleans indicating whether the attendee is optional or not*/
+  public Set<Boolean> getAttendeesOptionalStatus(){
+      return Collections.unmodifiableSet(optional);
   }
 
   @Override

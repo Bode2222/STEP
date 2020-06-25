@@ -27,8 +27,13 @@
             </div>
         </div>
 
-        <button onclick="getDataFromServlet()">getDataButton</button>
-        <div id="data-container"></div>
+        <button onclick="getDataFromServlet()">Get Comments Button</button>
+        <ul id="data-container"></ul>
+
+        <label for="quantity"> Number of comments to be displayed (btw 1 and 100):</label>
+        <input type="number" id="commentNumberTextBox" name="quantity" min="1" max="100">
+
+        <button onclick="deleteDataFromServlet()">Delete Comments Button</button>
 
         <form action="/data" method="POST">
             <p>Leave a comment:</p>
@@ -37,6 +42,7 @@
 
             <input type="submit" />
         </form>
+
 
         <div class=footer>
             <a href="https://www.github.com/Bode2222/"> <img src="/Pics/gitlogo.png" alt="Github" width="50" height="50"> </a>
