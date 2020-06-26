@@ -26,3 +26,9 @@ function addRandomGreeting() {
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
+
+function getCaptions(){
+    fetch('youtubeCaptions').then(response => response.text()).then((text) => {
+        console.log(text);
+    });
+}
