@@ -35,6 +35,8 @@ import java.util.Collection;
 
 import java.io.StringWriter;
 import java.io.PrintWriter;
+import java.io.File;
+import java.io.FileInputStream;
 
 @WebServlet("/youtubeCaptions")
 public class CaptionsServlet extends HttpServlet {
@@ -55,9 +57,10 @@ public class CaptionsServlet extends HttpServlet {
      */
     public static Credential authorize(final NetHttpTransport httpTransport) throws IOException {
         // Load client secrets.
-        InputStream in = CaptionsServlet.class.getResourceAsStream("/home/olabodeige/Capstone_Project/portfolio/src/main/java/com/google/sps/servlets/client_secret.json");
+        File tempFile = new File("/home/olabodeige/Capstone_Project/portfolio/src/main/java/com/google/sps/servlets/client_secret.json");
+        InputStream in = new FileInputStream(tempFile);
         if(in == null){
-            allErrors += "Did not getresource as stream";
+            allErrors += "File not found\n";
         }
         
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
@@ -93,7 +96,6 @@ public class CaptionsServlet extends HttpServlet {
      */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
         try{
             response.getWriter().println("Tried to get captions");
             YouTube youtubeService = getService();
