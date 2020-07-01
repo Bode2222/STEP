@@ -12,23 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Adds a random greeting to the page.
- */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
-
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
-
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
-}
-
-function getCaptions(){
-    fetch('youtubeCaptions').then(response => response.text()).then((text) => {
-        console.log(text);
+/*
+* Gets the title, descriptions and english captions(if specified video has english captions) from youtube api
+* using video id specified via user.
+*/
+function getVideoData(){
+    var videoId = document.getElementById("VideoIdTextBox").value;
+    var metadataServlet = "VideoMetadata?videoId=" + videoId;
+    var captionsServlet = "YoutubeCaptions?videoId=" + videoId;
+    fetch(metadataServlet).then(response => response.json()).then((video) => {
+        document.getElementById("videoTitle").innerHTML = video.items[0].snippet.title;
+        document.getElementById("videoDescription").innerHTML = video.items[0].snippet.localized.description;
     });
+    fetch(captionsServlet).then(response =>response.text()).then(captions => {
+        document.getElementById("videoCaptions").innerHTML = captions;
+    })
 }

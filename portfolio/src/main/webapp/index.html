@@ -8,13 +8,15 @@
   </head>
   <body>
     <div id="content">
-      <h1>My Portfolio</h1>
-      <p>This is my portfolio.</p>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
-
-      <button onClick="getCaptions()">Captions</button>
+      <p> Enter video Id here </p>
+      <input type="text" id="VideoIdTextBox"> </input>
+      <button onClick="getVideoData()">Get Info</button>
+      <p>Title:</p>
+      <p id="videoTitle"></p>
+      <p>Description:</p>
+      <p id="videoDescription"></p>
+      <p>Captions:</p>
+      <p id="videoCaptions"></p>
     </div>
   </body>
 </html>
